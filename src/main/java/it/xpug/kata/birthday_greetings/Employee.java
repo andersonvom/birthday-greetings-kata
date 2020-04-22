@@ -1,10 +1,11 @@
 package it.xpug.kata.birthday_greetings;
 
 import java.text.ParseException;
+import java.time.LocalDate;
 
 public class Employee {
 
-  private XDate birthDate;
+  private BirthDate birthDate;
   private String lastName;
   private String firstName;
   private String email;
@@ -13,12 +14,12 @@ public class Employee {
       throws ParseException {
     this.firstName = firstName;
     this.lastName = lastName;
-    this.birthDate = new XDate(birthDate);
+    this.birthDate = new BirthDate(LocalDate.parse(birthDate));
     this.email = email;
   }
 
-  public boolean isBirthday(XDate today) {
-    return today.isSameDay(birthDate);
+  public boolean isBirthday(LocalDate date) {
+    return birthDate.isBirthday(date);
   }
 
   public String getEmail() {
