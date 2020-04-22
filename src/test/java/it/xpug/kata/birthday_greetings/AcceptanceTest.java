@@ -13,13 +13,16 @@ import org.junit.Test;
 public class AcceptanceTest {
 
   private static final int NONSTANDARD_PORT = 9999;
+  private static final String HOST = "localhost";
   private BirthdayService birthdayService;
+  private EmailService emailService;
   private SimpleSmtpServer mailServer;
 
   @Before
   public void setUp() throws Exception {
     mailServer = SimpleSmtpServer.start(NONSTANDARD_PORT);
-    birthdayService = new BirthdayService();
+    emailService = new EmailService(HOST, NONSTANDARD_PORT);
+    birthdayService = new BirthdayService(emailService);
   }
 
   @After
@@ -32,7 +35,7 @@ public class AcceptanceTest {
   public void willSendGreetings_whenItsSomebodysBirthday() throws Exception {
 
     birthdayService.sendGreetings(
-        "employee_data.txt", LocalDate.parse("2008/10/08"), "localhost", NONSTANDARD_PORT);
+        "employee_data.txt", LocalDate.parse("2008-10-08"));
 
     assertEquals("message not sent?", 1, mailServer.getReceivedEmails().size());
     SmtpMessage message = (SmtpMessage) mailServer.getReceivedEmails().get(0);
@@ -46,7 +49,7 @@ public class AcceptanceTest {
   @Test
   public void willNotSendEmailsWhenNobodysBirthday() throws Exception {
     birthdayService.sendGreetings(
-        "employee_data.txt", LocalDate.parse("2008/01/01"), "localhost", NONSTANDARD_PORT);
+        "employee_data.txt", LocalDate.parse("2008/01/01"));
 
     assertEquals("what? messages?", 0, mailServer.getReceivedEmails().size());
   }

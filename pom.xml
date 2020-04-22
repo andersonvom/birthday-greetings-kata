@@ -4,10 +4,10 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>it.xpug.kata.birthday_greetings</groupId>
-  <artifactId>birthday-greetings</artifactId>
+  <artifactId>birthDate-greetings</artifactId>
   <version>1.0-SNAPSHOT</version>
 
-  <name>birthday-greetings</name>
+  <name>birthDate-greetings</name>
   <!-- FIXME change it to the project's website -->
   <url>http://www.example.com</url>
 
