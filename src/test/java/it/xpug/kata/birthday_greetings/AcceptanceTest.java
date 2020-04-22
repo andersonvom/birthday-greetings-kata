@@ -35,7 +35,7 @@ public class AcceptanceTest {
 
     assertEquals("message not sent?", 1, mailServer.getReceivedEmails().size());
     SmtpMessage message = (SmtpMessage) mailServer.getReceivedEmails().get(0);
-    assertEquals("Happy Birthday, dear John!", message.getBody());
+    assertEquals("Happy Birthday, dear John", message.getBody());
     assertEquals("Happy Birthday!", message.getHeaderValue("Subject"));
     List<String> recipients = message.getHeaderValues("To");
     assertEquals(1, recipients.size());
