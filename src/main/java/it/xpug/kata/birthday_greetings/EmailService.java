@@ -13,28 +13,34 @@ public class EmailService {
 
   private String host;
   private int port;
+  private Session session;
 
   EmailService(String host, int port) {
     this.host = host;
     this.port = port;
+    this.session = getSession();
   }
 
   public void sendMessage(String sender, String subject, String body, String recipient)
       throws MessagingException {
-    // Create a mail session
-    java.util.Properties props = new java.util.Properties();
+    Transport.send(getMessage(sender, subject, body, recipient));
+  }
+
+  private Session getSession() {
+    Properties props = new Properties();
     props.put("mail.smtp.host", host);
     props.put("mail.smtp.port", port);
-    Session session = Session.getInstance(props, null);
+    return Session.getInstance(props, null);
+  }
 
-    // Construct the message
+  private Message getMessage(String sender, String subject, String body, String recipient)
+      throws MessagingException {
     Message msg = new MimeMessage(session);
     msg.setFrom(new InternetAddress(sender));
     msg.setRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
     msg.setSubject(subject);
     msg.setText(body);
 
-    // Send the message
-    Transport.send(msg);
+    return msg;
   }
 }

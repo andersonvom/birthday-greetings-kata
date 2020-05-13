@@ -6,6 +6,8 @@ import javax.mail.MessagingException;
 
 public class BirthdayService {
 
+  public static final String SENDER = "sender@here.com";
+  public static final String SUBJECT = "Happy Birthday!";
   private EmailService emailService;
 
   public BirthdayService(EmailService emailService) {
@@ -17,13 +19,14 @@ public class BirthdayService {
   }
 
   private void sendEmail(Employee employee) {
-    String recipient = employee.getEmail();
-    String body = "Happy Birthday, dear %NAME%".replace("%NAME%", employee.getFirstName());
-    String subject = "Happy Birthday!";
     try {
-      emailService.sendMessage("sender@here.com", subject, body, recipient);
+      emailService.sendMessage(SENDER, SUBJECT, getBody(employee), employee.getEmail());
     } catch (MessagingException e) {
       e.printStackTrace();
     }
+  }
+
+  private String getBody(Employee employee) {
+    return "Happy Birthday, dear %NAME%".replace("%NAME%", employee.getFirstName());
   }
 }
